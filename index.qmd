@@ -1,0 +1,42 @@
+---
+title: "3º Avaliação: plotagem e aceleração computacional em Python"
+author: "Wericky Barbosa de Melo"
+lang: pt # Linguagem em português
+format:
+  html:
+    theme: default
+    toc: true
+    grid:
+      margin-width: 150px
+    code-fold: true   # <--- torna o código colapsável
+execute:
+  echo: true
+reference-location: margin
+citation-location: margin
+---
+
+# introdução
+
+Este trabalho tem como objetivo explorar importantes ferramentas do ecossistema python voltadas para visualização e aceleração computacional. Serão utilizado e contextualizados os seguintes pacotes: (para visualizar os códigos, basta clicar no botão `|> código`)
+
+-   matplotlib: plotagem dos gráficos para melhor visualização acerca dos dados;
+-   numba: otimização de códigos para aceleração computacional da compilação e rodagem de códigos.
+
+# Parte 1: plotagem em python
+Plotagem em python é do criar uma representação visual dos dados, como por exemplo gráficos e tabelas,
+
+## matplotlib
+<div style="text-align: center;">
+  <img src="imagens\matplot_title_logo.png" alt="Exemplo de gráfico" width="400"/>
+</div>
+
+## plotnine
+<div style="text-align: center;">
+  <img src="imagens\plotnine_logo.png" alt="Exemplo de gráfico" width="200"/>
+</div>
+
+# Parte 2: aceleração computacional com Numba
+
+<div style="text-align: center;">
+  <img src="imagens\numba.png" alt="Exemplo de gráfico" width="400"/>
+</div>
