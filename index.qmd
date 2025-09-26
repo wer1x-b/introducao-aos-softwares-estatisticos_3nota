@@ -265,8 +265,6 @@ Gramática de gráficos inspirada no ggplot2 do `R`
 ### gráfico de barras empilhadas
 
 ```{python}
-%aimport plotnine
-
 import pandas as pd
 import numpy as np
 
@@ -322,3 +320,4 @@ mpg.head()
 ::: {style="text-align: center;"}
 <img src="imagens\numba.png" alt="Exemplo de gráfico" width="400"/>
 :::
+
