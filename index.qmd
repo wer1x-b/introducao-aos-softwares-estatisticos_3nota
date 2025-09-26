@@ -38,9 +38,9 @@ Esta é uma biblioteca de baixo nível, altamente flexível e configurável, que
 ::: column-margin
 Referências:
 
-[Repositório oficial no `GitHub`](https://github.com/matplotlib/matplotlib)
+- [Repositório oficial no `GitHub`](https://github.com/matplotlib/matplotlib)
 
-[Site oficial do Matplotlib](https://matplotlib.org/stable/gallery/index.html)
+- [Site oficial do Matplotlib](https://matplotlib.org/stable/gallery/index.html)
 :::
 
 Exemplo de plotagem de gráficos utilizando `matplotlib`
@@ -68,7 +68,7 @@ ax.plot(x, y, 'o', color='tab:brown')
 ```
 
 ::: column-margin
-[Exemplo do gráfico de linha](https://matplotlib.org/stable/gallery/lines_bars_and_markers/fill_between_demo.html#sphx-glr-gallery-lines-bars-and-markers-fill-between-demo-py)
+- [Exemplo do gráfico de linha](https://matplotlib.org/stable/gallery/lines_bars_and_markers/fill_between_demo.html#sphx-glr-gallery-lines-bars-and-markers-fill-between-demo-py)
 :::
 
 ### gráfico de colunas
@@ -92,7 +92,7 @@ plt.show()
 ```
 
 ::: column-margin
-[Exemplo do gráfico de barras](https://matplotlib.org/stable/gallery/lines_bars_and_markers/bar_colors.html#sphx-glr-gallery-lines-bars-and-markers-bar-colors-py)
+- [Exemplo do gráfico de barras](https://matplotlib.org/stable/gallery/lines_bars_and_markers/bar_colors.html#sphx-glr-gallery-lines-bars-and-markers-bar-colors-py)
 :::
 
 ## Seaborn
@@ -103,9 +103,9 @@ plt.show()
 ::: column-margin
 Referências:
 
-[Repositório oficial no `GitHub`](https://github.com/mwaskom/seaborn)
+- [Repositório oficial no `GitHub`](https://github.com/mwaskom/seaborn)
 
-[Site oficial do Seaborn](https://seaborn.pydata.org/examples/index.html)
+- [Site oficial do Seaborn](https://seaborn.pydata.org/examples/index.html)
 :::
 
 O Seaborn utiliza o matplotlib para funcionar e se propõe a trazer uma visualização mais sofisticada dos gráficos
@@ -133,7 +133,7 @@ sns.scatterplot(x="carat", y="price",
 ```
 
 ::: column-margin
-[Exemplo do gráfico de dispersão](https://seaborn.pydata.org/examples/different_scatter_variables.html)
+- [Exemplo do gráfico de dispersão](https://seaborn.pydata.org/examples/different_scatter_variables.html)
 :::
 
 ### gráfico de boxplot
@@ -152,18 +152,23 @@ sns.despine(offset=10, trim=True)
 ```
 
 ::: column-margin
-[Exemplo do gráfico de bloxplot](https://seaborn.pydata.org/examples/grouped_boxplot.html)
+- [Exemplo do gráfico de bloxplot](https://seaborn.pydata.org/examples/grouped_boxplot.html)
 :::
 
 ## Plotly
+::: {style="text-align: center;"}
+<img src="imagens\Plotly-logo.png" alt="Exemplo de gráfico" width="400"/>
+:::
+
 Possui um foco maior na interatividade. Como por exemplo para a construção de dashboards. Porém é mais pesado para rodar.
 exemplos de aplicação
 
 ::: column-margin
-[Repositório oficial no `GitHub`](https://github.com/plotly/plotly.py)
+- [Repositório oficial no `GitHub`](https://github.com/plotly/plotly.py)
 
-[Site oficial do Plotly](https://plotly.com/python/)
+- [Site oficial do Plotly](https://plotly.com/python/)
 :::
+
 Note que ao posicionar o cursor sobre o gráfico, é possível obter detalhes, e clicando e arrastando, é possível dar um zoom.
 
 ### tabela e gráfico vertical
@@ -226,7 +231,7 @@ fig.show()
 ```
 
 ::: column-margin
-[Exemplo de tabela e gráfico vertical](https://plotly.com/python/figure-factory-subplots/)
+- [Exemplo de tabela e gráfico vertical](https://plotly.com/python/figure-factory-subplots/)
 :::
 
 ### mapa de bolhas
@@ -239,6 +244,10 @@ fig = px.scatter_geo(df, locations="iso_alpha", color="continent",
 fig.show()
 ```
 
+::: column-margin
+- [mapa de bolhas](https://plotly.com/python/bubble-maps/)
+:::
+
 ## plotnine
 
 ::: {style="text-align: center;"}
@@ -246,6 +255,67 @@ fig.show()
 :::
 
 Gramática de gráficos inspirada no ggplot2 do `R`
+
+::: column-margin
+- [Repositório oficial no `GitHub`](https://github.com/has2k1/plotnine)
+
+- [Site oficial do Plotnine](https://plotnine.org/gallery/index.html)
+:::
+
+### gráfico de barras empilhadas
+
+```{python}
+%aimport plotnine
+
+import pandas as pd
+import numpy as np
+
+from plotnine import (
+    ggplot,
+    aes,
+    after_stat,
+    stage,
+    geom_bar,
+    geom_text,
+    geom_bin_2d,
+    stat_bin_2d,
+)
+df = pd.DataFrame({
+    "var1": list("abbcccddddeeeee"),
+    "cat": list("RSRSRSRRRSRSSRS")
+})
+
+(
+    ggplot(df, aes(x="var1", fill="cat"))
+    + geom_bar()
+    + geom_text(
+        aes(label=after_stat("count"), y=stage(after_stat="count", after_scale="y+.1")),
+        stat="count",
+        position="stack",
+    )
+)
+```
+
+::: column-margin
+- [gráfico de barras empilhadas](https://plotnine.org/gallery/stage.html)
+:::
+
+### gráfico de barras horizontais
+```{python}
+from plotnine import ggplot, aes, geom_bar, coord_flip, theme_classic
+from plotnine.data import mpg
+mpg.head()
+(
+    ggplot(mpg) 
+    + geom_bar(aes(x="class", fill="drv"))
+    + coord_flip()
+    + theme_classic()
+)
+```
+
+::: column-margin
+- [gráfico de barras horizontais](https://plotnine.org/gallery/horizontal-bar-chart.html)
+:::
 
 # Parte 2: aceleração computacional com Numba
 
