@@ -69,17 +69,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap-50a529341e8c9fcab6df968f18cb8aa7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="index_files/libs/bootstrap/bootstrap-6419f24a3b22f37371f33b0af121c727.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
 
 <body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
   <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Índice</h2>
+    <h2 id="toc-title">Sumário</h2>
    
   <ul>
   <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução">introdução</a></li>
@@ -87,11 +87,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#matplotlib" id="toc-matplotlib" class="nav-link" data-scroll-target="#matplotlib">matplotlib</a></li>
   <li><a href="#seaborn" id="toc-seaborn" class="nav-link" data-scroll-target="#seaborn">Seaborn</a></li>
+  <li><a href="#plotly" id="toc-plotly" class="nav-link" data-scroll-target="#plotly">Plotly</a></li>
   <li><a href="#plotnine" id="toc-plotnine" class="nav-link" data-scroll-target="#plotnine">plotnine</a></li>
   </ul></li>
   <li><a href="#parte-2-aceleração-computacional-com-numba" id="toc-parte-2-aceleração-computacional-com-numba" class="nav-link" data-scroll-target="#parte-2-aceleração-computacional-com-numba">Parte 2: aceleração computacional com Numba</a></li>
   </ul>
 </nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
 <main class="content page-columns page-full" id="quarto-document-content">
 
@@ -143,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://github.com/matplotlib/matplotlib">Repositório oficial no <code>GitHub</code></a></p>
 <p><a href="https://matplotlib.org/stable/gallery/index.html">Site oficial do Matplotlib</a></p>
 </div></div><p>Exemplo de plotagem de gráficos utilizando <code>matplotlib</code></p>
-<div id="3f108bcb" class="cell" data-execution_count="1">
+<div id="8257ecb0" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -176,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p><a href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/fill_between_demo.html#sphx-glr-gallery-lines-bars-and-markers-fill-between-demo-py">Exemplo do gráfico de linha</a></p>
-</div></div><div id="4669dd62" class="cell" data-execution_count="2">
+</div></div><div id="322a4795" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -210,12 +213,78 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div></div></section>
 <section id="seaborn" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="seaborn">Seaborn</h2>
+<div style="text-align: center;">
+<p><img src="imagens\logo-seaborn.svg" alt="Exemplo de gráfico" width="400"></p>
+</div>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p>Referências:</p>
 <p><a href="https://github.com/mwaskom/seaborn">Repositório oficial no <code>GitHub</code></a></p>
 <p><a href="https://seaborn.pydata.org/examples/index.html">Site oficial do Seaborn</a></p>
+</div></div><p>O Seaborn utiliza o matplotlib para funcionar e se propõe a trazer uma visualização mais sofisticada dos gráficos</p>
+<div id="8fd1bef5" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the example diamonds dataset</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>diamonds <span class="op">=</span> sns.load_dataset(<span class="st">"diamonds"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw a scatter plot while assigning point colors and sizes to different</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># variables in the dataset</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>f, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.5</span>, <span class="fl">6.5</span>))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>sns.despine(f, left<span class="op">=</span><span class="va">True</span>, bottom<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>clarity_ranking <span class="op">=</span> [<span class="st">"I1"</span>, <span class="st">"SI2"</span>, <span class="st">"SI1"</span>, <span class="st">"VS2"</span>, <span class="st">"VS1"</span>, <span class="st">"VVS2"</span>, <span class="st">"VVS1"</span>, <span class="st">"IF"</span>]</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span><span class="st">"carat"</span>, y<span class="op">=</span><span class="st">"price"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                hue<span class="op">=</span><span class="st">"clarity"</span>, size<span class="op">=</span><span class="st">"depth"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                palette<span class="op">=</span><span class="st">"ch:r=-.2,d=.3_r"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                hue_order<span class="op">=</span>clarity_ranking,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                sizes<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">8</span>), linewidth<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                data<span class="op">=</span>diamonds, ax<span class="op">=</span>ax)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><a href="https://seaborn.pydata.org/examples/different_scatter_variables.html">Exemplo do gráfico de dispersão</a></p>
+</div></div><div id="ff7a9df0" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"ticks"</span>, palette<span class="op">=</span><span class="st">"pastel"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the example tips dataset</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>tips <span class="op">=</span> sns.load_dataset(<span class="st">"tips"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw a nested boxplot to show bills by day and time</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>sns.boxplot(x<span class="op">=</span><span class="st">"day"</span>, y<span class="op">=</span><span class="st">"total_bill"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            hue<span class="op">=</span><span class="st">"smoker"</span>, palette<span class="op">=</span>[<span class="st">"m"</span>, <span class="st">"g"</span>],</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>            data<span class="op">=</span>tips)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>sns.despine(offset<span class="op">=</span><span class="dv">10</span>, trim<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><a href="https://seaborn.pydata.org/examples/grouped_boxplot.html">Exemplo do gráfico de bloxplot</a></p>
 </div></div></section>
+<section id="plotly" class="level2">
+<h2 class="anchored" data-anchor-id="plotly">Plotly</h2>
+</section>
 <section id="plotnine" class="level2">
 <h2 class="anchored" data-anchor-id="plotnine">plotnine</h2>
 <div style="text-align: center;">

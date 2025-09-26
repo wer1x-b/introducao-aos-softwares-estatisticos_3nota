@@ -4,10 +4,11 @@ author: "Wericky Barbosa de Melo"
 lang: pt # Linguagem em português
 format:
   html:
-    theme: default
     toc: true
+    toc-title: "Sumário"
+    toc-location: left    # Pode ser 'left', 'right', ou 'body'
     grid:
-      margin-width: 350px
+      margin-width: 300px
     code-fold: true   # <--- torna o código colapsável
 execute:
   echo: true
@@ -92,8 +93,10 @@ plt.show()
 [Exemplo do gráfico de barras](https://matplotlib.org/stable/gallery/lines_bars_and_markers/bar_colors.html#sphx-glr-gallery-lines-bars-and-markers-bar-colors-py)
 :::
 
-
 ## Seaborn
+::: {style="text-align: center;"}
+<img src="imagens\logo-seaborn.svg" alt="Exemplo de gráfico" width="400"/>
+:::
 
 ::: column-margin
 Referências:
@@ -102,6 +105,55 @@ Referências:
 
 [Site oficial do Seaborn](https://seaborn.pydata.org/examples/index.html)
 :::
+
+O Seaborn utiliza o matplotlib para funcionar e se propõe a trazer uma visualização mais sofisticada dos gráficos
+
+```{python}
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme(style="whitegrid")
+
+# Load the example diamonds dataset
+diamonds = sns.load_dataset("diamonds")
+
+# Draw a scatter plot while assigning point colors and sizes to different
+# variables in the dataset
+f, ax = plt.subplots(figsize=(6.5, 6.5))
+sns.despine(f, left=True, bottom=True)
+clarity_ranking = ["I1", "SI2", "SI1", "VS2", "VS1", "VVS2", "VVS1", "IF"]
+sns.scatterplot(x="carat", y="price",
+                hue="clarity", size="depth",
+                palette="ch:r=-.2,d=.3_r",
+                hue_order=clarity_ranking,
+                sizes=(1, 8), linewidth=0,
+                data=diamonds, ax=ax)
+```
+
+::: column-margin
+[Exemplo do gráfico de dispersão](https://seaborn.pydata.org/examples/different_scatter_variables.html)
+:::
+
+```{python}
+import seaborn as sns
+sns.set_theme(style="ticks", palette="pastel")
+
+# Load the example tips dataset
+tips = sns.load_dataset("tips")
+
+# Draw a nested boxplot to show bills by day and time
+sns.boxplot(x="day", y="total_bill",
+            hue="smoker", palette=["m", "g"],
+            data=tips)
+sns.despine(offset=10, trim=True)
+```
+
+::: column-margin
+[Exemplo do gráfico de bloxplot](https://seaborn.pydata.org/examples/grouped_boxplot.html)
+:::
+
+## Plotly
+
+
 
 ## plotnine
 
