@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -34,7 +69,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap-ee45b29bdb94cc923cafbe6ab1af3b95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="index_files/libs/bootstrap/bootstrap-50a529341e8c9fcab6df968f18cb8aa7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -51,13 +86,14 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#parte-1-plotagem-em-python" id="toc-parte-1-plotagem-em-python" class="nav-link" data-scroll-target="#parte-1-plotagem-em-python">Parte 1: plotagem em python</a>
   <ul class="collapse">
   <li><a href="#matplotlib" id="toc-matplotlib" class="nav-link" data-scroll-target="#matplotlib">matplotlib</a></li>
+  <li><a href="#seaborn" id="toc-seaborn" class="nav-link" data-scroll-target="#seaborn">Seaborn</a></li>
   <li><a href="#plotnine" id="toc-plotnine" class="nav-link" data-scroll-target="#plotnine">plotnine</a></li>
   </ul></li>
   <li><a href="#parte-2-aceleração-computacional-com-numba" id="toc-parte-2-aceleração-computacional-com-numba" class="nav-link" data-scroll-target="#parte-2-aceleração-computacional-com-numba">Parte 2: aceleração computacional com Numba</a></li>
   </ul>
 </nav>
 </div>
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -92,20 +128,100 @@ ul.task-list li input[type="checkbox"] {
 <li>numba: otimização de códigos para aceleração computacional da compilação e rodagem de códigos.</li>
 </ul>
 </section>
-<section id="parte-1-plotagem-em-python" class="level1">
+<section id="parte-1-plotagem-em-python" class="level1 page-columns page-full">
 <h1>Parte 1: plotagem em python</h1>
-<p>Plotagem em python é do criar uma representação visual dos dados, como por exemplo gráficos e tabelas,</p>
-<section id="matplotlib" class="level2">
+<p>Plotagem em python é do criar uma representação visual dos dados, como por exemplo gráficos e tabelas, para isto podemos utilizar alguns pacotes como por exemplo <code>Matplotlib</code>, <code>Seaborn</code>, <code>Plotly</code> e <code>Plotnine</code>.</p>
+<section id="matplotlib" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="matplotlib">matplotlib</h2>
 <div style="text-align: center;">
 <p><img src="imagens\matplot_title_logo.png" alt="Exemplo de gráfico" width="400"></p>
 </div>
-</section>
+<p>Esta é uma biblioteca de baixo nível, altamente flexível e configurável, que serve de base para outras bibliotecas como o <code>Seaborn</code> por exemplo.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Referências:</p>
+<p><a href="https://github.com/matplotlib/matplotlib">Repositório oficial no <code>GitHub</code></a></p>
+<p><a href="https://matplotlib.org/stable/gallery/index.html">Site oficial do Matplotlib</a></p>
+</div></div><p>Exemplo de plotagem de gráficos utilizando <code>matplotlib</code></p>
+<div id="3f108bcb" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">21</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">11</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> [<span class="fl">3.9</span>, <span class="fl">4.4</span>, <span class="fl">10.8</span>, <span class="fl">10.3</span>, <span class="fl">11.2</span>, <span class="fl">13.1</span>, <span class="fl">14.1</span>,  <span class="fl">9.9</span>, <span class="fl">13.9</span>, <span class="fl">15.1</span>, <span class="fl">12.5</span>]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># fit a linear curve and estimate its y-values and their error.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> np.polyfit(x, y, deg<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>y_est <span class="op">=</span> a <span class="op">*</span> x <span class="op">+</span> b</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y_err <span class="op">=</span> x.std() <span class="op">*</span> np.sqrt(<span class="dv">1</span><span class="op">/</span><span class="bu">len</span>(x) <span class="op">+</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                          (x <span class="op">-</span> x.mean())<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> np.<span class="bu">sum</span>((x <span class="op">-</span> x.mean())<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ax.plot(x, y_est, <span class="st">'-'</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>ax.fill_between(x, y_est <span class="op">-</span> y_err, y_est <span class="op">+</span> y_err, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Gráfico de linha'</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>ax.plot(x, y, <span class="st">'o'</span>, color<span class="op">=</span><span class="st">'tab:brown'</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><a href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/fill_between_demo.html#sphx-glr-gallery-lines-bars-and-markers-fill-between-demo-py">Exemplo do gráfico de linha</a></p>
+</div></div><div id="4669dd62" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>frutas <span class="op">=</span> [<span class="st">'maça'</span>, <span class="st">'blueberry'</span>, <span class="st">'cereja'</span>, <span class="st">'laranja'</span>]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>quantidade <span class="op">=</span> [<span class="dv">40</span>, <span class="dv">100</span>, <span class="dv">30</span>, <span class="dv">55</span>]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>bar_labels <span class="op">=</span> [<span class="st">'vermelho'</span>, <span class="st">'azul'</span>, <span class="st">'rosa'</span>, <span class="st">'orange'</span>]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>bar_colors <span class="op">=</span> [<span class="st">'tab:red'</span>, <span class="st">'tab:blue'</span>, <span class="st">'tab:pink'</span>, <span class="st">'tab:orange'</span>]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>ax.bar(frutas, quantidade, label<span class="op">=</span>bar_labels, color<span class="op">=</span>bar_colors)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'suprimento de frutas'</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Gráfico de colunas'</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>ax.legend(title<span class="op">=</span><span class="st">'cor de frutas'</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><a href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/bar_colors.html#sphx-glr-gallery-lines-bars-and-markers-bar-colors-py">Exemplo do gráfico de barras</a></p>
+</div></div></section>
+<section id="seaborn" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="seaborn">Seaborn</h2>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Referências:</p>
+<p><a href="https://github.com/mwaskom/seaborn">Repositório oficial no <code>GitHub</code></a></p>
+<p><a href="https://seaborn.pydata.org/examples/index.html">Site oficial do Seaborn</a></p>
+</div></div></section>
 <section id="plotnine" class="level2">
 <h2 class="anchored" data-anchor-id="plotnine">plotnine</h2>
 <div style="text-align: center;">
 <p><img src="imagens\plotnine_logo.png" alt="Exemplo de gráfico" width="200"></p>
 </div>
+<p>Gramática de gráficos inspirada no ggplot2 do <code>R</code></p>
 </section>
 </section>
 <section id="parte-2-aceleração-computacional-com-numba" class="level1">
