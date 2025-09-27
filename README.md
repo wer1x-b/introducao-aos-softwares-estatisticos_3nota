@@ -1,17 +1,17 @@
 # 3º Avaliação: plotagem e aceleração computacional em Python
 
-Este repositório contém um material didático sobre visualização de dados e aceleração computacional utilizando Python, abordando os principais pacotes do ecossistema científico.
+Este repositório apresenta um material didático sobre visualização de dados e aceleração computacional utilizando Python, abordando os principais pacotes do ecossistema científico.
 
 ## Conteúdo
 
 - **Visualização de dados**:
   - [Matplotlib](https://matplotlib.org/): biblioteca base para gráficos em Python.
-  - [Seaborn](https://seaborn.pydata.org/): gráficos estatísticos sofisticados.
+  - [Seaborn](https://seaborn.pydata.org/): gráficos estatísticos sofisticados e integração com DataFrames.
   - [Plotly](https://plotly.com/python/): gráficos interativos e dashboards.
   - [Plotnine](https://plotnine.org/): gramática de gráficos inspirada no ggplot2 do R.
 
 - **Aceleração computacional**:
-  - [Numba](https://numba.pydata.org/): compilação JIT para acelerar código Python.
+  - [Numba](https://numba.pydata.org/): compilação JIT para acelerar código Python, especialmente útil para simulações e processamento numérico.
 
 ## Estrutura
 
@@ -20,9 +20,10 @@ Este repositório contém um material didático sobre visualização de dados e 
 - `.venv/`: ambiente virtual Python (crie com `python -m venv .venv`).
 
 ## Como visualizar
+
 Acesse pelo link: [https://wer1x-b.github.io/introducao-aos-softwares-estatisticos_3nota/](https://wer1x-b.github.io/introducao-aos-softwares-estatisticos_3nota/)
 
-ou siga os passos abaixo para renderizar localmente:
+Ou siga os passos abaixo para renderizar localmente:
 
 1. Instale o [Quarto](https://quarto.org/docs/get-started/).
 2. Ative o ambiente virtual:
@@ -31,7 +32,7 @@ ou siga os passos abaixo para renderizar localmente:
    ```
 3. Instale as dependências:
    ```
-   pip install matplotlib seaborn plotly plotnine pandas numpy
+   pip install matplotlib seaborn plotly plotnine pandas numpy numba
    ```
 4. Renderize o documento:
    ```

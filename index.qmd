@@ -19,8 +19,8 @@ citation-location: margin
 # introdução
 
 Este trabalho tem como objetivo explorar importantes ferramentas do ecossistema python voltadas para plotagem, em outras palavras, uma representação mais visualização dos dados.
-Além disso será apresentado conceitos acerca de aceleração computacional, utilizando o `Numba`.
-Serão utilizado e contextualizados os seguintes pacotes: 
+
+Além disso será apresentado conceitos acerca de aceleração computacional, utilizando o `Numba` juntamente a um exemplo comparativo. 
 
 ::: callout-tip
 Para visualizar os códigos, basta clicar nos botão ` |>Código`
