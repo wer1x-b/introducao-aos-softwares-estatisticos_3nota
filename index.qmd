@@ -174,7 +174,9 @@ sns.despine(offset=10, trim=True)
 
 Possui um foco maior na interatividade. Como por exemplo para a construção de dashboards e gráficos interativos, permitindo zoom ou seleção por exemplo.
 
-
+::: callout-warning
+Alguns gráficos podem demorar para renderizar dependendo do tamanho dos dados.
+:::
 
 ::: column-margin
 - [Repositório oficial no `GitHub`](https://github.com/plotly/plotly.py)
@@ -353,12 +355,14 @@ import random
 import matplotlib.pyplot as plt
 from matplotlib.patches import Arc
 
+random.seed(123)
+
 # Função para calcular a aproximação de pi (calculando o valor de um quadrante e então multiplicando por 4)
 def aproximar_pi_calculo(num_pontos):
     dentro_circulo = sum(random.uniform(0, 1)**2 + random.uniform(0, 1)**2 <= 1 for _ in range(num_pontos))
     return 4 * dentro_circulo / num_pontos
 
-# Gerando gráfico para visualizar melhor a ideia
+# Gerando gráfico 
 def visualizar_aproximacao(num_pontos_plot):
     dentro_x, dentro_y = [], []
     fora_x, fora_y = [], []
@@ -387,10 +391,16 @@ def visualizar_aproximacao(num_pontos_plot):
     ax.legend(loc="lower right")
     plt.title(f'Aproximação de π (Monte Carlo)\nπ ≈ {pi_grafico:.5f} com {num_pontos_plot} pontos')
     plt.show()
+
+# Medindo tempo de execução da função otimizada
 start = time.time()
-visualizar_aproximacao(1_000_000)
+pi_aprox = aproximar_pi_calculo(1_000_000)
 end = time.time()
+print(f"π ≈ {pi_aprox:.5f}")
 print(f"tempo de execução: {end - start:.3f} segundos")
+
+visualizar_aproximacao(1_000_000)
+
 ```
 
 ## Agora otimizado com Numba:
@@ -401,6 +411,8 @@ import random
 import matplotlib.pyplot as plt
 from matplotlib.patches import Arc
 from numba import njit
+
+random.seed(123)
 
 # Função otimizada com Numba para calcular a aproximação de pi
 @njit
@@ -413,7 +425,7 @@ def aproximar_pi_calculo_numba(num_pontos):
             dentro_circulo += 1
     return 4 * dentro_circulo / num_pontos
 
-# Gerando gráfico para visualizar melhor a ideia (sem otimização, pois envolve matplotlib)
+# Gerando gráfico (sem otimização, pois envolve matplotlib)
 def visualizar_aproximacao(num_pontos_plot):
     dentro_x, dentro_y = [], []
     fora_x, fora_y = [], []
@@ -448,6 +460,9 @@ end = time.time()
 print(f"π ≈ {pi_aprox:.5f}")
 print(f"tempo de execução (Numba): {end - start:.3f} segundos")
 
-# Opcional: visualizar pontos (com menos amostras para não ficar lento)
 visualizar_aproximacao(1_000_000)
 ```
+
+::: callout-tip
+Note que o tempo da versão otimizada do código é mais rápida, necessitando menos tempo para executar os cálculos.
+:::
