@@ -350,6 +350,7 @@ Vamos seguir com um exemplo de código não-otimizado que demanda um tempo consi
 ## Código sem otimização
 
 ```{python}
+# 1) Imports e semente
 import time
 import random
 import matplotlib.pyplot as plt
@@ -357,50 +358,59 @@ from matplotlib.patches import Arc
 
 random.seed(123)
 
-# Função para calcular a aproximação de pi (calculando o valor de um quadrante e então multiplicando por 4)
-def aproximar_pi_calculo(num_pontos):
-    dentro_circulo = sum(random.uniform(0, 1)**2 + random.uniform(0, 1)**2 <= 1 for _ in range(num_pontos))
-    return 4 * dentro_circulo / num_pontos
 
-# Gerando gráfico 
+# 2) Função de aproximação de π (Python puro)
+def aproximar_pi_calculo_py(num_pontos):
+    dentro = 0
+    for _ in range(num_pontos):
+        x = random.uniform(0, 1)
+        y = random.uniform(0, 1)
+        if x*x + y*y <= 1:
+            dentro += 1
+    return 4 * dentro / num_pontos
+
+
+# 3) Função de visualização (Monte Carlo)
 def visualizar_aproximacao(num_pontos_plot):
     dentro_x, dentro_y = [], []
     fora_x, fora_y = [], []
 
-    # Gerando pontos para o gráfico
     for _ in range(num_pontos_plot):
         x, y = random.uniform(0, 1), random.uniform(0, 1)
-        if x**2 + y**2 <= 1:
+        if x*x + y*y <= 1:
             dentro_x.append(x)
             dentro_y.append(y)
         else:
             fora_x.append(x)
             fora_y.append(y)
 
-    # calculando pi com os pontos do gráfico para exibir no título
     pi_grafico = 4 * len(dentro_x) / num_pontos_plot
-    
+
     fig, ax = plt.subplots(figsize=(6,6))
-    ax.scatter(dentro_x, dentro_y, color='blue', s=1, label='Dentro do círculo')
-    ax.scatter(fora_x, fora_y, color='red', s=1, label='Fora do círculo')
+    ax.scatter(dentro_x, dentro_y, color='blue',  s=1, label='Dentro do círculo')
+    ax.scatter(fora_x, fora_y, color='red',   s=1, label='Fora do círculo')
     circ = Arc((0, 0), 2, 2, theta1=0, theta2=90, color='green', linewidth=2)
     ax.add_patch(circ)
     ax.set_aspect('equal')
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
+    ax.set_xlim(0,1)
+    ax.set_ylim(0,1)
     ax.legend(loc="lower right")
     plt.title(f'Aproximação de π (Monte Carlo)\nπ ≈ {pi_grafico:.5f} com {num_pontos_plot} pontos')
     plt.show()
 
-# Medindo tempo de execução da função otimizada
-start = time.time()
-pi_aprox = aproximar_pi_calculo(100_000)
-end = time.time()
-print(f"π ≈ {pi_aprox:.5f}")
-print(f"tempo de execução: {end - start:.3f} segundos")
 
-visualizar_aproximacao(100_000)
+# 4) Execução e medição de tempos
+if __name__ == "__main__":
+    N = 100_000
 
+    # chamando função
+    t0 = time.time()
+    pi1 = aproximar_pi_calculo_py(N)
+    t1 = time.time()
+    print(f"[Python puro]   π ≈ {pi1:.5f}   tempo: {t1-t0:.4f} segundos")
+
+    # Visualização dos pontos
+    visualizar_aproximacao(N)
 ```
 
 ## Agora otimizado com Numba:
@@ -408,59 +418,85 @@ visualizar_aproximacao(100_000)
 ```{python}
 import time
 import random
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Arc
-from numba import njit
+from numba import njit, prange
 
-random.seed(123)
-
-# Função otimizada com Numba para calcular a aproximação de pi
-@njit
-def aproximar_pi_calculo_numba(num_pontos):
-    dentro_circulo = 0
+# 1) Função original em Python puro
+def aproximar_pi_calculo_py(num_pontos):
+    dentro = 0
     for _ in range(num_pontos):
         x = random.uniform(0, 1)
         y = random.uniform(0, 1)
-        if x**2 + y**2 <= 1:
-            dentro_circulo += 1
-    return 4 * dentro_circulo / num_pontos
+        if x*x + y*y <= 1:
+            dentro += 1
+    return 4 * dentro / num_pontos
 
-# Gerando gráfico (sem otimização, pois envolve matplotlib)
+# 2) Função otimizada com Numba (parallel loop + PRNG do NumPy)
+@njit(parallel=True)
+def aproximar_pi_calculo_numba(num_pontos):
+    dentro = 0
+    for i in prange(num_pontos):
+        x = np.random.random()
+        y = np.random.random()
+        if x*x + y*y <= 1:
+            dentro += 1
+    return 4 * dentro / num_pontos
+
+# 3) Visualização (igual ao seu código original)
 def visualizar_aproximacao(num_pontos_plot):
-    dentro_x, dentro_y = [], []
-    fora_x, fora_y = [], []
-
+    dentro_x, dentro_y, fora_x, fora_y = [], [], [], []
     for _ in range(num_pontos_plot):
-        x, y = random.uniform(0, 1), random.uniform(0, 1)
-        if x**2 + y**2 <= 1:
-            dentro_x.append(x)
-            dentro_y.append(y)
+        x, y = random.uniform(0,1), random.uniform(0,1)
+        if x*x + y*y <= 1:
+            dentro_x.append(x); dentro_y.append(y)
         else:
-            fora_x.append(x)
-            fora_y.append(y)
+            fora_x.append(x); fora_y.append(y)
 
     pi_grafico = 4 * len(dentro_x) / num_pontos_plot
-    
+
     fig, ax = plt.subplots(figsize=(6,6))
     ax.scatter(dentro_x, dentro_y, color='blue', s=1, label='Dentro do círculo')
-    ax.scatter(fora_x, fora_y, color='red', s=1, label='Fora do círculo')
-    circ = Arc((0, 0), 2, 2, theta1=0, theta2=90, color='green', linewidth=2)
+    ax.scatter(fora_x, fora_y, color='red',  s=1, label='Fora do círculo')
+    circ = Arc((0,0), 2, 2, theta1=0, theta2=90, color='green', linewidth=2)
     ax.add_patch(circ)
     ax.set_aspect('equal')
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
+    ax.set_xlim(0,1); ax.set_ylim(0,1)
     ax.legend(loc="lower right")
     plt.title(f'Aproximação de π (Monte Carlo)\nπ ≈ {pi_grafico:.5f} com {num_pontos_plot} pontos')
     plt.show()
 
-# Medindo tempo de execução da função otimizada
-start = time.time()
-pi_aprox = aproximar_pi_calculo_numba(100_000)
-end = time.time()
-print(f"π ≈ {pi_aprox:.5f}")
-print(f"tempo de execução (Numba): {end - start:.3f} segundos")
+# 4) Semente para Python + NumPy (garante reproducibilidade em NumPy)
+random.seed(123)
+np.random.seed(123)
 
-visualizar_aproximacao(100_000)
+# 5) Medindo tempos
+N = 100_000
+
+# 5.1 Python puro
+t0 = time.time()
+pi_py = aproximar_pi_calculo_py(N)
+t1 = time.time()
+
+print(f"[Python]    π ≈ {pi_py:.5f}   tempo: {t1-t0:.4f} segundos")
+
+# 5.2 Numba: primeira chamada (compilação + execução)
+t2 = time.time()
+pi_nb_first = aproximar_pi_calculo_numba(N)
+t3 = time.time()
+
+print(f"[Numba] compilação+execução  π ≈ {pi_nb_first:.5f}   tempo: {t3-t2:.4f} s")
+
+# 5.3 Numba: segunda chamada (só execução)
+t4 = time.time()
+pi_nb = aproximar_pi_calculo_numba(N)
+t5 = time.time()
+
+print(f"[Numba]    apenas execução  π ≈ {pi_nb:.5f}   tempo: {t5-t4:.4f} s")
+
+# 6) Visualizar
+visualizar_aproximacao(N)
 ```
 
 ::: callout-tip
