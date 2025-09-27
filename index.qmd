@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-title: "Sumário"
-    toc-location: left    # Pode ser 'left', 'right', ou 'body'
+    toc-location: left
     grid:
       margin-width: 300px
     code-fold: true   # <--- torna o código colapsável
@@ -18,10 +18,13 @@ citation-location: margin
 
 # introdução
 
-Este trabalho tem como objetivo explorar importantes ferramentas do ecossistema python voltadas para visualização e aceleração computacional. Serão utilizado e contextualizados os seguintes pacotes: (para visualizar os códigos, basta clicar no botão `|> código`)
+Este trabalho tem como objetivo explorar importantes ferramentas do ecossistema python voltadas para plotagem, em outras palavras, uma representação mais visualização dos dados.
+Além disso será apresentado conceitos acerca de aceleração computacional, utilizando o `Numba`.
+Serão utilizado e contextualizados os seguintes pacotes: 
 
--   matplotlib: plotagem dos gráficos para melhor visualização acerca dos dados;
--   numba: otimização de códigos para aceleração computacional da compilação e rodagem de códigos.
+::: callout-tip
+Para visualizar os códigos, basta clicar nos botão ` |>Código`
+:::
 
 # Parte 1: plotagem em python
 
@@ -46,6 +49,7 @@ Referências:
 Exemplo de plotagem de gráficos utilizando `matplotlib`
 
 ### gráfico de linha
+
 ```{python}
 import matplotlib.pyplot as plt
 import numpy as np
@@ -66,6 +70,10 @@ ax.fill_between(x, y_est - y_err, y_est + y_err, alpha=0.2)
 ax.set_title('Gráfico de linha')
 ax.plot(x, y, 'o', color='tab:brown')
 ```
+
+::: callout-tip
+Para visualizar os códigos, basta clicar nos botão ` |> Código`
+:::
 
 ::: column-margin
 - [Exemplo do gráfico de linha](https://matplotlib.org/stable/gallery/lines_bars_and_markers/fill_between_demo.html#sphx-glr-gallery-lines-bars-and-markers-fill-between-demo-py)
@@ -108,7 +116,7 @@ Referências:
 - [Site oficial do Seaborn](https://seaborn.pydata.org/examples/index.html)
 :::
 
-O Seaborn utiliza o matplotlib para funcionar e se propõe a trazer uma visualização mais sofisticada dos gráficos
+O Seaborn utiliza o matplotlib para funcionar e simplifica o uso, a maioria de suas funções permitem que lide diretamente com dataframes e criam gráficos com poucas linhas.
 
 ### gráfico de dispersão
 ```{python}
@@ -131,6 +139,10 @@ sns.scatterplot(x="carat", y="price",
                 sizes=(1, 8), linewidth=0,
                 data=diamonds, ax=ax)
 ```
+
+::: callout-tip
+Para visualizar os códigos, basta clicar nos botão ` |> Código`
+:::
 
 ::: column-margin
 - [Exemplo do gráfico de dispersão](https://seaborn.pydata.org/examples/different_scatter_variables.html)
@@ -160,8 +172,9 @@ sns.despine(offset=10, trim=True)
 <img src="imagens\Plotly-logo.png" alt="Exemplo de gráfico" width="400"/>
 :::
 
-Possui um foco maior na interatividade. Como por exemplo para a construção de dashboards. Porém é mais pesado para rodar.
-exemplos de aplicação
+Possui um foco maior na interatividade. Como por exemplo para a construção de dashboards e gráficos interativos, permitindo zoom ou seleção por exemplo.
+
+
 
 ::: column-margin
 - [Repositório oficial no `GitHub`](https://github.com/plotly/plotly.py)
@@ -169,7 +182,9 @@ exemplos de aplicação
 - [Site oficial do Plotly](https://plotly.com/python/)
 :::
 
+::: callout-note
 Note que ao posicionar o cursor sobre o gráfico, é possível obter detalhes, e clicando e arrastando, é possível dar um zoom.
+:::
 
 ### tabela e gráfico vertical
 ```{python}
@@ -294,6 +309,10 @@ df = pd.DataFrame({
 )
 ```
 
+::: callout-tip
+Para visualizar os códigos, basta clicar nos botão ` |> Código`
+:::
+
 ::: column-margin
 - [gráfico de barras empilhadas](https://plotnine.org/gallery/stage.html)
 :::
@@ -321,3 +340,114 @@ mpg.head()
 <img src="imagens\numba.png" alt="Exemplo de gráfico" width="400"/>
 :::
 
+`Numba` é um pacote que acelera a execução de funções númericas utilizando a compilação `JIT` (Just-In-Time). Isto é, traduzindo funções python em um código de máquina otimizado, aumentando o desempenho e diminuindo o tempo de processamento.
+Esta otimizização é especialmente útil para realizar simulação de dados em larga escala.
+
+Vamos seguir com um exemplo de código não-otimizado que demanda um tempo considerável para funcionar:
+
+## Código sem otimização
+
+```{python}
+import time
+import random
+import matplotlib.pyplot as plt
+from matplotlib.patches import Arc
+
+# Função para calcular a aproximação de pi (calculando o valor de um quadrante e então multiplicando por 4)
+def aproximar_pi_calculo(num_pontos):
+    dentro_circulo = sum(random.uniform(0, 1)**2 + random.uniform(0, 1)**2 <= 1 for _ in range(num_pontos))
+    return 4 * dentro_circulo / num_pontos
+
+# Gerando gráfico para visualizar melhor a ideia
+def visualizar_aproximacao(num_pontos_plot):
+    dentro_x, dentro_y = [], []
+    fora_x, fora_y = [], []
+
+    # Gerando pontos para o gráfico
+    for _ in range(num_pontos_plot):
+        x, y = random.uniform(0, 1), random.uniform(0, 1)
+        if x**2 + y**2 <= 1:
+            dentro_x.append(x)
+            dentro_y.append(y)
+        else:
+            fora_x.append(x)
+            fora_y.append(y)
+
+    # calculando pi com os pontos do gráfico para exibir no título
+    pi_grafico = 4 * len(dentro_x) / num_pontos_plot
+    
+    fig, ax = plt.subplots(figsize=(6,6))
+    ax.scatter(dentro_x, dentro_y, color='blue', s=1, label='Dentro do círculo')
+    ax.scatter(fora_x, fora_y, color='red', s=1, label='Fora do círculo')
+    circ = Arc((0, 0), 2, 2, theta1=0, theta2=90, color='green', linewidth=2)
+    ax.add_patch(circ)
+    ax.set_aspect('equal')
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.legend(loc="lower right")
+    plt.title(f'Aproximação de π (Monte Carlo)\nπ ≈ {pi_grafico:.5f} com {num_pontos_plot} pontos')
+    plt.show()
+start = time.time()
+visualizar_aproximacao(1_000_000)
+end = time.time()
+print(f"tempo de execução: {end - start:.3f} segundos")
+```
+
+## Agora otimizado com Numba:
+
+```{python}
+import time
+import random
+import matplotlib.pyplot as plt
+from matplotlib.patches import Arc
+from numba import njit
+
+# Função otimizada com Numba para calcular a aproximação de pi
+@njit
+def aproximar_pi_calculo_numba(num_pontos):
+    dentro_circulo = 0
+    for _ in range(num_pontos):
+        x = random.uniform(0, 1)
+        y = random.uniform(0, 1)
+        if x**2 + y**2 <= 1:
+            dentro_circulo += 1
+    return 4 * dentro_circulo / num_pontos
+
+# Gerando gráfico para visualizar melhor a ideia (sem otimização, pois envolve matplotlib)
+def visualizar_aproximacao(num_pontos_plot):
+    dentro_x, dentro_y = [], []
+    fora_x, fora_y = [], []
+
+    for _ in range(num_pontos_plot):
+        x, y = random.uniform(0, 1), random.uniform(0, 1)
+        if x**2 + y**2 <= 1:
+            dentro_x.append(x)
+            dentro_y.append(y)
+        else:
+            fora_x.append(x)
+            fora_y.append(y)
+
+    pi_grafico = 4 * len(dentro_x) / num_pontos_plot
+    
+    fig, ax = plt.subplots(figsize=(6,6))
+    ax.scatter(dentro_x, dentro_y, color='blue', s=1, label='Dentro do círculo')
+    ax.scatter(fora_x, fora_y, color='red', s=1, label='Fora do círculo')
+    circ = Arc((0, 0), 2, 2, theta1=0, theta2=90, color='green', linewidth=2)
+    ax.add_patch(circ)
+    ax.set_aspect('equal')
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.legend(loc="lower right")
+    plt.title(f'Aproximação de π (Monte Carlo)\nπ ≈ {pi_grafico:.5f} com {num_pontos_plot} pontos')
+    plt.show()
+
+# Medindo tempo de execução da função otimizada
+start = time.time()
+pi_aprox = aproximar_pi_calculo_numba(1_000_000)
+end = time.time()
+print(f"π ≈ {pi_aprox:.5f}")
+print(f"tempo de execução (Numba): {end - start:.3f} segundos")
+
+# Opcional: visualizar pontos (com menos amostras para não ficar lento)
+visualizar_aproximacao(1_000_000)
+```
