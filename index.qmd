@@ -394,12 +394,12 @@ def visualizar_aproximacao(num_pontos_plot):
 
 # Medindo tempo de execução da função otimizada
 start = time.time()
-pi_aprox = aproximar_pi_calculo(1_000_000)
+pi_aprox = aproximar_pi_calculo(100_000)
 end = time.time()
 print(f"π ≈ {pi_aprox:.5f}")
 print(f"tempo de execução: {end - start:.3f} segundos")
 
-visualizar_aproximacao(1_000_000)
+visualizar_aproximacao(100_000)
 
 ```
 
@@ -455,12 +455,12 @@ def visualizar_aproximacao(num_pontos_plot):
 
 # Medindo tempo de execução da função otimizada
 start = time.time()
-pi_aprox = aproximar_pi_calculo_numba(1_000_000)
+pi_aprox = aproximar_pi_calculo_numba(100_000)
 end = time.time()
 print(f"π ≈ {pi_aprox:.5f}")
 print(f"tempo de execução (Numba): {end - start:.3f} segundos")
 
-visualizar_aproximacao(1_000_000)
+visualizar_aproximacao(100_000)
 ```
 
 ::: callout-tip

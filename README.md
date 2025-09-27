@@ -20,7 +20,7 @@ Este repositório contém um material didático sobre visualização de dados e 
 - `.venv/`: ambiente virtual Python (crie com `python -m venv .venv`).
 
 ## Como visualizar
-Acesse pelo link: [https://wer1x.github.io/introducao-aos-softwares-estatisticos_3nota/](https://wer1x.github.io/introducao-aos-softwares-estatisticos_3nota/)
+Acesse pelo link: [https://wer1x-b.github.io/introducao-aos-softwares-estatisticos_3nota/](https://wer1x-b.github.io/introducao-aos-softwares-estatisticos_3nota/)
 
 ou siga os passos abaixo para renderizar localmente:
 
